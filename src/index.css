@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand Indigo / Purple-Blue (Overriding default Indigo & Blue to unify colors based on the logo) */
+  --color-indigo-50: #f5f6fc;
+  --color-indigo-100: #e9ecf9;
+  --color-indigo-200: #ccd5f6;
+  --color-indigo-300: #a2b0ec;
+  --color-indigo-400: #7486e0;
+  --color-indigo-500: #4B58C1; /* Main logo accent color */
+  --color-indigo-600: #3c47a3;
+  --color-indigo-700: #2e3685;
+  --color-indigo-800: #1f2566;
+  --color-indigo-900: #121535;
+  --color-indigo-950: #0a0b1d;
+
+  --color-blue-50: #f5f6fc;
+  --color-blue-100: #e9ecf9;
+  --color-blue-200: #ccd5f6;
+  --color-blue-300: #a2b0ec;
+  --color-blue-400: #7486e0;
+  --color-blue-500: #4B58C1;
+  --color-blue-600: #3c47a3;
+  --color-blue-700: #2e3685;
+  --color-blue-800: #1f2566;
+  --color-blue-900: #121535;
+  --color-blue-950: #0a0b1d;
+
+  /* Logo Warm Off-White / Cream */
+  --color-brand-cream: #F6F4EF;
+  --color-brand-cream-dark: #ECEAE3;
+}
