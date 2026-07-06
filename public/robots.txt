@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /privacy.html
 
-Sitemap: https://bringai.io/sitemap.xml
+Sitemap: https://www.bringai.it.com/sitemap.xml

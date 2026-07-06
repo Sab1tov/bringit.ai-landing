@@ -11,7 +11,7 @@ export const HeroMockup = () => (
       <span className="h-2.5 w-2.5 rounded-full bg-slate-200" />
       <span className="h-2.5 w-2.5 rounded-full bg-slate-200" />
       <div className="mx-auto flex h-6 w-64 items-center justify-center rounded-md border border-slate-100 bg-slate-50 text-[10px] text-slate-400">
-        app.bringai.io
+        app.bringai.it.com
       </div>
     </div>
 
