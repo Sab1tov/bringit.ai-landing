@@ -25,4 +25,4 @@ COPY . .
 # 5005: Rasa REST/NLU · 5055: сервер действий · 8000: web-connector (публичный)
 EXPOSE 5005 5055 8000
 
-CMD ["uvicorn", "web_connector:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python", "start.py"]
