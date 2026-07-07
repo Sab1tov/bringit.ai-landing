@@ -24,7 +24,6 @@ function ChatApp() {
     return localStorage.getItem("bringai_session_id") || `web_${Math.random().toString(36).substring(2, 11)}`;
   });
   const [isOnline, setIsOnline] = useState(true);
-  const [showSettings, setShowSettings] = useState(false);
 
   const messagesEndRef = useRef(null);
 
@@ -189,108 +188,13 @@ function ChatApp() {
             </div>
           </div>
         </div>
-
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => setShowSettings(!showSettings)}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl border text-sm font-semibold transition-all cursor-pointer ${
-            showSettings
-              ? "bg-slate-100 border-slate-300 text-black"
-              : "bg-transparent border-slate-200 text-slate-600 hover:border-slate-300"
-          }`}
-        >
-          ⚙️ {showSettings ? "Скрыть консоль" : "Настройки API"}
-        </motion.button>
       </header>
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col md:flex-row relative z-10 h-[calc(100vh-73px)] overflow-hidden">
-        {/* Settings & Info Sidebar */}
-        <AnimatePresence>
-          {showSettings && (
-            <motion.aside
-              initial={{ width: 0, opacity: 0 }}
-              animate={{ width: "320px", opacity: 1 }}
-              exit={{ width: 0, opacity: 0 }}
-              transition={SPRING}
-              className="border-r border-slate-100 bg-slate-50/50 backdrop-blur-md flex flex-col shrink-0 overflow-y-auto"
-            >
-              <div className="p-6 flex flex-col gap-6 w-[320px]">
-                {/* API URL Config */}
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
-                    Адрес API Чат-бота
-                  </label>
-                  <input
-                    type="text"
-                    value={botUrl}
-                    onChange={(e) => setBotUrl(e.target.value)}
-                    placeholder={`${window.location.origin}/api/chat`}
-                    className="w-full bg-white border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/20 rounded-xl px-3 py-2.5 text-sm text-slate-800 outline-none transition-all shadow-sm"
-                  />
-                  <p className="text-[11px] text-slate-400 mt-2 leading-relaxed">
-                    Если оставить пустым, запросы будут уходить на <code className="text-slate-600">/api/chat</code> текущего домена. Для интеграции с Railway укажите полный адрес (например, <code className="text-slate-600">https://bot.up.railway.app/api/chat</code>).
-                  </p>
-                </div>
-
-                {/* Session Inspector */}
-                <div className="border-t border-slate-100 pt-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-500">
-                      ID текущей сессии
-                    </label>
-                    <button
-                      onClick={resetSession}
-                      className="text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 transition-colors cursor-pointer"
-                    >
-                      Сбросить
-                    </button>
-                  </div>
-                  <div className="bg-white border border-slate-200 rounded-xl p-2.5 font-mono text-[11px] text-slate-500 break-all select-all shadow-sm">
-                    {sessionId}
-                  </div>
-                </div>
-
-                {/* FAQ Knowledge Details */}
-                <div className="border-t border-slate-100 pt-4">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
-                    О демонстрационной версии
-                  </h4>
-                  <div className="text-xs text-slate-500 space-y-2.5 leading-relaxed">
-                    <p>
-                      🤖 Бот отвечает на частые вопросы о продуктах <strong>bringAI</strong> с помощью базы знаний и ИИ-алгоритмов.
-                    </p>
-                    <p>
-                      💡 Интеграция <strong>RAG (OpenAI)</strong> позволяет отвечать на нестандартные вопросы на основе текстовых документов компании.
-                    </p>
-                    <p>
-                      📝 Вы можете протестировать сценарий записи: напишите <em>"записаться на тест"</em> или <em>"хочу демо"</em>.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.aside>
-          )}
-        </AnimatePresence>
-
         {/* Chat Area */}
         <main className="flex-1 flex flex-col bg-slate-50/20 relative">
-          {/* Mobile indicator if sidebar is hidden */}
-          <div className="sm:hidden border-b border-slate-100 bg-white/60 backdrop-blur-md px-4 py-2 flex items-center justify-between">
-            <div className="flex items-center gap-1.5">
-              <span className={`w-1.5 h-1.5 rounded-full ${isOnline ? "bg-emerald-500 animate-pulse" : "bg-rose-500"}`} />
-              <span className="text-[10px] text-slate-500 font-medium">
-                {isOnline ? "Бот активен" : "Бот не отвечает"}
-              </span>
-            </div>
-            <button
-              onClick={() => setShowSettings(!showSettings)}
-              className="text-[10px] text-indigo-600 font-semibold"
-            >
-              {showSettings ? "Скрыть настройки" : "Настройки API"}
-            </button>
-          </div>
+
 
           {/* Chat log */}
           <div className="flex-1 overflow-y-auto px-4 py-6 md:px-8 space-y-4">
