@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
-import { createRoot } from "react-dom/client";
-import { motion, AnimatePresence } from "framer-motion";
-import logoUrl from "./assets/logo.svg";
-import "./index.css";
+import { AnimatePresence, motion } from "framer-motion"
+import { useEffect, useRef, useState } from "react"
+import { createRoot } from "react-dom/client"
+import logoUrl from "./assets/logo.svg"
+import "./index.css"
 
 const SPRING = { type: "spring", stiffness: 300, damping: 30 };
 
@@ -18,7 +18,7 @@ function ChatApp() {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [botUrl, setBotUrl] = useState(() => {
-    return localStorage.getItem("bringai_bot_url") || "";
+    return localStorage.getItem("bringai_bot_url") || "energetic-adaptation-production-05cd.up.railway.app";
   });
   const [sessionId, setSessionId] = useState(() => {
     return localStorage.getItem("bringai_session_id") || `web_${Math.random().toString(36).substring(2, 11)}`;
