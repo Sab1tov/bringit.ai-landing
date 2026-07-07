@@ -1,0 +1,144 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - ask_schedule
+  - ask_address
+  - ask_price
+  - enroll_course
+  - free_question
+  - affirm
+
+entities:
+  - grade
+  - district
+  - child_name
+  - phone
+
+slots:
+  grade:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+        conditions:
+          - active_loop: enrollment_form
+            requested_slot: grade
+
+  district:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+        conditions:
+          - active_loop: enrollment_form
+            requested_slot: district
+
+  child_name:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+        conditions:
+          - active_loop: enrollment_form
+            requested_slot: child_name
+
+  phone:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+        conditions:
+          - active_loop: enrollment_form
+            requested_slot: phone
+
+  enroll_done:
+    type: bool
+    influence_conversation: true
+    initial_value: false
+    mappings:
+      - type: custom
+
+forms:
+  enrollment_form:
+    required_slots:
+      - grade
+      - district
+      - child_name
+      - phone
+
+responses:
+  utter_greet:
+    - text: |
+        Здравствуйте! Я Алихан, менеджер школы робототехники 🤖
+
+        Подскажите, что вас интересует: цена, расписание, пробное занятие или запись ребёнка?
+
+  utter_goodbye:
+    - text: |
+        Хорошо, спасибо за обращение 🙂
+
+        Если решите попробовать, просто напишите: «хочу записать ребёнка» — быстро оформлю заявку на пробное занятие.
+
+  utter_schedule:
+    - text: |
+        Сейчас посмотрю расписание по программам QADAM Robotics 🙂
+
+        Если нужен точный слот, напишите возраст ребёнка и удобные дни — подберём ближайшую группу.
+
+  utter_address:
+    - text: |
+        Наш демо-филиал: пр-т Абая 10, 2 этаж, вход со двора 📍
+
+        Если напишете район или берег, менеджер подскажет, какая группа будет удобнее по локации и времени.
+
+  utter_price:
+    - text: |
+        В QADAM Robotics цена зависит от программы и возраста ребёнка.
+
+        Напишите возраст или интересующее направление — подскажу подходящий тариф и формат занятий 🙂
+
+  utter_ask_grade:
+    - text: "Хорошо, давайте подберём группу. В каком классе учится ребёнок? Например: 3 класс."
+
+  utter_ask_district:
+    - text: "Спасибо. В каком районе или на каком берегу вам удобнее заниматься?"
+
+  utter_ask_child_name:
+    - text: "Как зовут ребёнка?"
+
+  utter_ask_phone:
+    - text: "И оставьте, пожалуйста, номер телефона для подтверждения записи. Можно в формате 87001234567 или +77001234567."
+
+  utter_enroll_summary:
+    - text: |
+        Отлично, заявку принял ✅
+
+        Ребёнок: {child_name}
+        Класс: {grade}
+        Район/берег: {district}
+        Телефон: {phone}
+
+        Менеджер проверит ближайшие места и напишет вам с вариантами времени для пробного занятия.
+
+  utter_default:
+    - text: |
+        Сейчас попробую найти точный ответ по школе. Если не найду — лучше уточнит менеджер, чтобы не сказать неправильно 🙂
+
+  utter_faq_not_found:
+    - text: |
+        Тут лучше уточнит менеджер, чтобы не дать неточную информацию.
+
+        Могу пока помочь с ценой, расписанием, программами, пробным занятием или записью ребёнка 🙂
+
+actions:
+  - validate_enrollment_form
+  - action_after_enroll
+  - action_faq_search
+  - action_rag_answer
+  - action_smart_answer
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

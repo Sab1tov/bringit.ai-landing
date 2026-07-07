@@ -1,0 +1,93 @@
+version: "3.1"
+
+rules:
+  - rule: Приветствие
+    steps:
+      - intent: greet
+      - action: utter_greet
+
+  - rule: Прощание
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+
+  # Главная логика после RAG-фикса:
+  # 1) action_smart_answer сначала отвечает локально на базовые вопросы: курс, цена, пробное, расписание, безопасность, скидки.
+  # 2) Если локального/FAQ-ответа нет, только тогда включает RAG + GPT по документу QADAM.
+  # Так мы экономим токены и не теряем ответы на редкие вопросы вроде KPI, миссии, устава, финансовой модели.
+  - rule: Расписание → smart answer
+    steps:
+      - intent: ask_schedule
+      - action: action_smart_answer
+
+  - rule: Стоимость → smart answer
+    steps:
+      - intent: ask_price
+      - action: action_smart_answer
+
+  - rule: Свободный вопрос → smart answer
+    steps:
+      - intent: free_question
+      - action: action_smart_answer
+
+  - rule: Фолбэк → smart answer
+    steps:
+      - intent: nlu_fallback
+      - action: action_smart_answer
+
+  - rule: Адрес → smart answer
+    steps:
+      - intent: ask_address
+      - action: action_smart_answer
+
+  - rule: Подтверждение после CTA → форма записи
+    steps:
+      - intent: affirm
+      - action: enrollment_form
+      - active_loop: enrollment_form
+
+  - rule: Запуск формы записи
+    steps:
+      - intent: enroll_course
+      - action: enrollment_form
+      - active_loop: enrollment_form
+
+  - rule: Завершение формы → сводка + уведомление менеджеру
+    condition:
+      - active_loop: enrollment_form
+    steps:
+      - action: enrollment_form
+      - active_loop: null
+      - action: action_after_enroll
+
+  - rule: Post-enroll → свободный вопрос → smart answer
+    condition:
+      - slot_was_set:
+          - enroll_done: true
+    steps:
+      - intent: free_question
+      - action: action_smart_answer
+
+  - rule: Post-enroll → расписание → smart answer
+    condition:
+      - slot_was_set:
+          - enroll_done: true
+    steps:
+      - intent: ask_schedule
+      - action: action_smart_answer
+
+  - rule: Post-enroll → стоимость → smart answer
+    condition:
+      - slot_was_set:
+          - enroll_done: true
+    steps:
+      - intent: ask_price
+      - action: action_smart_answer
+
+  - rule: Post-enroll → адрес → smart answer
+    condition:
+      - slot_was_set:
+          - enroll_done: true
+    steps:
+      - intent: ask_address
+      - action: action_smart_answer

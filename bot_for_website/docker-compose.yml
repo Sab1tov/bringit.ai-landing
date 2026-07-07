@@ -1,0 +1,66 @@
+version: '3.8'
+
+# Демо-стек для сайта: только мозг Rasa + сервер действий + тонкий веб-адаптер.
+# Интеграций (WhatsApp/Instagram/Telegram) здесь нет.
+#
+# ВАЖНО по безопасности: наружу публикуется ТОЛЬКО порт web-connector (8000).
+# Rasa (5005) и сервер действий (5055) живут в приватной сети compose и в интернет
+# не выставляются — иначе кто угодно сможет слать сообщения и жечь бюджет OpenAI.
+
+services:
+  rasa-core:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: qadam-demo-rasa-core
+    command: rasa run --enable-api --cors "*"
+    expose:
+      - "5005"
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+      - ./config.yml:/app/config.yml
+      - ./credentials.yml:/app/credentials.yml
+      - ./endpoints.docker.yml:/app/endpoints.yml
+    env_file:
+      - .env
+    restart: unless-stopped
+    depends_on:
+      - rasa-actions
+
+  rasa-actions:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: qadam-demo-rasa-actions
+    command: rasa run actions
+    expose:
+      - "5055"
+    volumes:
+      - ./actions:/app/actions
+      - ./data:/app/data
+      - ./rag_engine.py:/app/rag_engine.py
+      - ./security.py:/app/security.py
+      - ./state.py:/app/state.py
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  web-connector:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: qadam-demo-web
+    command: uvicorn web_connector:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"       # единственный публичный порт демо
+    volumes:
+      - ./data:/app/data
+    env_file:
+      - .env
+    environment:
+      - RASA_REST_URL=http://rasa-core:5005/webhooks/rest/webhook
+    restart: unless-stopped
+    depends_on:
+      - rasa-core
+      - rasa-actions

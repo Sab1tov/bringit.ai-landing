@@ -1,0 +1,12 @@
+# Секреты и локальный стейт/ПДн — не коммитить
+.env
+data/bot_state.db
+data/bot_state.db-wal
+data/bot_state.db-shm
+data/bot_state.json
+data/leads.jsonl
+
+# Python
+__pycache__/
+*.pyc
+.rasa/

@@ -1,0 +1,11 @@
+.env
+.git
+.gitignore
+.rasa/
+__pycache__/
+*.pyc
+data/bot_state.db
+data/bot_state.db-wal
+data/bot_state.db-shm
+data/leads.jsonl
+README.md

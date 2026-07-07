@@ -1,5 +1,5 @@
-import React from "react";
-import { Home } from "./pages/Home";
+import { Analytics } from "@vercel/analytics/react"
+import { Home } from "./pages/Home"
 
 export default function BringAILanding() {
   return (
@@ -14,6 +14,7 @@ export default function BringAILanding() {
           backgroundSize: "80px 80px",
         }}
       />
+      <Analytics />
       <div className="relative z-10">
         <Home />
       </div>
