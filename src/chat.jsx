@@ -148,7 +148,7 @@ function ChatApp() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-white font-sans text-slate-800 flex flex-col overflow-hidden">
+    <div className="relative h-screen max-h-screen bg-white font-sans text-slate-800 flex flex-col overflow-hidden">
       {/* Structural background grid from main page */}
       <div
         aria-hidden
@@ -191,7 +191,7 @@ function ChatApp() {
       </header>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col md:flex-row relative z-10 h-[calc(100vh-73px)] overflow-hidden">
+      <div className="flex-1 min-h-0 flex flex-col md:flex-row relative z-10 overflow-hidden">
         {/* Chat Area */}
         <main className="flex-1 flex flex-col bg-slate-50/20 relative">
 
@@ -200,8 +200,11 @@ function ChatApp() {
           <div className="flex-1 overflow-y-auto px-4 py-6 md:px-8 space-y-4">
             <div className="max-w-3xl mx-auto space-y-4">
               {messages.map((msg) => (
-                <div
+                <motion.div
                   key={msg.id}
+                  initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 28 }}
                   className={`flex ${msg.isBot ? "justify-start" : "justify-end"}`}
                 >
                   <div
@@ -241,11 +244,15 @@ function ChatApp() {
                       })}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
 
               {isLoading && (
-                <div className="flex justify-start">
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex justify-start"
+                >
                   <div className="flex gap-3 items-center">
                     <div className="w-8 h-8 rounded-full bg-[#4B58C1]/10 border-[#4B58C1]/20 flex items-center justify-center text-xs text-[#4B58C1]">
                       🤖
@@ -256,7 +263,7 @@ function ChatApp() {
                       <span className="w-1.5 h-1.5 bg-[#4B58C1] rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
                     </div>
                   </div>
-                </div>
+                </motion.div>
               )}
               <div ref={messagesEndRef} />
             </div>
