@@ -18,7 +18,7 @@ function ChatApp() {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [botUrl, setBotUrl] = useState(() => {
-    return localStorage.getItem("bringai_bot_url") || "energetic-adaptation-production-05cd.up.railway.app";
+    return localStorage.getItem("bringai_bot_url") || "https://energetic-adaptation-production-05cd.up.railway.app/api/chat";
   });
   const [sessionId, setSessionId] = useState(() => {
     return localStorage.getItem("bringai_session_id") || `web_${Math.random().toString(36).substring(2, 11)}`;
