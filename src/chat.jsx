@@ -164,13 +164,22 @@ function ChatApp() {
       <header className="relative z-10 border-b border-slate-100 bg-white/80 backdrop-blur-md px-6 py-4 md:py-6 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <motion.a
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, x: -2 }}
             whileTap={{ scale: 0.95 }}
             href="/"
-            className="flex items-center justify-center w-9 h-9 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-colors text-slate-500 hover:text-black font-semibold"
+            className="flex items-center justify-center w-10 h-10 rounded-full border border-slate-200 bg-white hover:bg-slate-50 transition-all text-slate-500 hover:text-black shadow-sm hover:shadow-md cursor-pointer"
             title="На главную"
           >
-            ←
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2.5}
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
           </motion.a>
           <a href="/" className="flex items-center">
             <img src={logoUrl} alt="bringAI Logo" className="h-8 md:h-12 w-auto" />
