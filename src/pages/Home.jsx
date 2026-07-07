@@ -5,6 +5,7 @@ import { ProblemSection } from "../components/organisms/ProblemSection";
 import { ProductSwitch } from "../components/organisms/ProductSwitch";
 import { UseCases } from "../components/organisms/UseCases";
 import { Implementation } from "../components/organisms/Implementation";
+import { ChatDemoCTA } from "../components/organisms/ChatDemoCTA";
 import { FooterCTA } from "../components/organisms/FooterCTA";
 
 export const Home = () => (
@@ -23,6 +24,7 @@ export const Home = () => (
     <div className="border-t border-slate-100">
       <Implementation />
     </div>
+    <ChatDemoCTA />
     <FooterCTA />
   </>
 );
