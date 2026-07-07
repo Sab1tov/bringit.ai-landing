@@ -48,6 +48,19 @@ function ChatApp() {
     }
   };
 
+  const resetSession = () => {
+    const newSessionId = `web_${Math.random().toString(36).substring(2, 11)}`;
+    setSessionId(newSessionId);
+    setMessages([
+      {
+        id: "welcome_" + newSessionId,
+        text: "Здравствуйте! Я виртуальный ассистент bringAI. 🤖\n\nЯ могу рассказать вам о возможностях наших B2B SaaS продуктов:\n• **NEМенеджер** — автоответчик в WhatsApp для мгновенных ответов клиентам.\n• **NEАссистент** — умный помощник для удобной работы с базами знаний.\n\nЗадайте мне любой вопрос об интеграции, возможностях или стоимости автоматизации вашего бизнеса!",
+        isBot: true,
+        timestamp: new Date(),
+      },
+    ]);
+  };
+
   const handleSendMessage = async (text) => {
     if (!text.trim() || isLoading) return;
 
@@ -173,6 +186,25 @@ function ChatApp() {
             </div>
           </div>
         </div>
+
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={resetSession}
+          className="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-all text-xs font-semibold text-slate-600 hover:text-black cursor-pointer shadow-sm"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2.2}
+            stroke="currentColor"
+            className="w-3.5 h-3.5 text-slate-500"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+          <span>Начать заново</span>
+        </motion.button>
       </header>
 
       {/* Main Content Area */}
@@ -255,7 +287,7 @@ function ChatApp() {
           </div>
 
           {/* Quick Prompts Container */}
-          {messages.length === 1 && !isLoading && (
+          {!isLoading && (
             <div className="px-4 py-2 border-t border-slate-100 max-w-3xl mx-auto w-full">
               <p className="text-xs text-slate-400 mb-2 font-medium">Частые вопросы:</p>
               <div className="flex flex-wrap gap-2">
