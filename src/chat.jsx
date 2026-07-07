@@ -1,10 +1,10 @@
-import { AnimatePresence, motion } from "framer-motion"
+import { motion } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 import { createRoot } from "react-dom/client"
 import logoUrl from "./assets/logo.svg"
 import "./index.css"
 
-const SPRING = { type: "spring", stiffness: 300, damping: 30 };
+const BOT_API_URL = "https://energetic-adaptation-production-05cd.up.railway.app/api/chat";
 
 function ChatApp() {
   const [messages, setMessages] = useState([
@@ -17,9 +17,6 @@ function ChatApp() {
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [botUrl, setBotUrl] = useState(() => {
-    return localStorage.getItem("bringai_bot_url") || "https://energetic-adaptation-production-05cd.up.railway.app/api/chat";
-  });
   const [sessionId, setSessionId] = useState(() => {
     return localStorage.getItem("bringai_session_id") || `web_${Math.random().toString(36).substring(2, 11)}`;
   });
@@ -38,36 +35,17 @@ function ChatApp() {
   }, [sessionId]);
 
   useEffect(() => {
-    localStorage.setItem("bringai_bot_url", botUrl);
     checkBotStatus();
-  }, [botUrl]);
+  }, []);
 
   const checkBotStatus = async () => {
-    const targetUrl = botUrl.trim() || `${window.location.origin}/api/chat`;
-    const healthUrl = targetUrl.replace("/api/chat", "/health");
+    const healthUrl = BOT_API_URL.replace("/api/chat", "/health");
     try {
       const res = await fetch(healthUrl, { method: "GET" });
-      if (res.ok) {
-        setIsOnline(true);
-      } else {
-        setIsOnline(false);
-      }
+      setIsOnline(res.ok);
     } catch {
       setIsOnline(false);
     }
-  };
-
-  const resetSession = () => {
-    const newSessionId = `web_${Math.random().toString(36).substring(2, 11)}`;
-    setSessionId(newSessionId);
-    setMessages([
-      {
-        id: "welcome_" + newSessionId,
-        text: "Сессия обновлена. Здравствуйте! Я виртуальный ассистент bringAI. О чём вам рассказать сегодня?",
-        isBot: true,
-        timestamp: new Date(),
-      },
-    ]);
   };
 
   const handleSendMessage = async (text) => {
@@ -84,10 +62,8 @@ function ChatApp() {
     setInputValue("");
     setIsLoading(true);
 
-    const targetApiUrl = botUrl.trim() || `${window.location.origin}/api/chat`;
-
     try {
-      const response = await fetch(targetApiUrl, {
+      const response = await fetch(BOT_API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -128,7 +104,7 @@ function ChatApp() {
         ...prev,
         {
           id: `error_${Date.now()}`,
-          text: `⚠️ Ошибка соединения с чат-ботом.\n\nУбедитесь, что ваш бэкенд на Railway запущен и адрес указан верно в панели настроек.\n\nТекущий адрес запроса: \`${targetApiUrl}\``,
+          text: `⚠️ Ошибка соединения с чат-ботом.\n\nУбедитесь, что ваш бэкенд на Railway запущен и адрес указан верно.\n\nТекущий адрес запроса: \`${BOT_API_URL}\``,
           isBot: true,
           timestamp: new Date(),
           isError: true,
