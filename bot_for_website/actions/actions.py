@@ -268,8 +268,6 @@ class ActionAfterEnroll(Action):
             f"🔥 Новый теплый лид из {CHANNEL_LABELS.get(channel, 'чата')}-бота\n\n"
             "Клиент сам прошел форму записи на демо — это не холодный контакт.\n\n"
             f"👤 Имя клиента: {child_name}\n"
-            f"💻 Использ. CRM: {grade}\n"
-            f"🔌 Каналы связи: {district}\n"
             f"📞 Телефон: {phone}\n"
             f"{_format_contact_line(channel, contact, transport_phone)}\n"
             f"🕒 Время: {lead['ts']}\n\n"
