@@ -8,6 +8,24 @@
     <meta name="description" content="Попробуйте возможности искусственного интеллекта bringAI в реальном времени. Наш демонстрационный чат-бот ответит на ваши вопросы." />
     <meta property="og:site_name" content="bringAI" />
     <link rel="canonical" href="https://www.bringai.it.com/chat.html" />
+
+    <!-- Google tag (gtag.js) -->
+    <script>
+      (function() {
+        const gaId = "%VITE_GA_MEASUREMENT_ID%";
+        if (gaId && gaId !== "%" + "VITE_GA_MEASUREMENT_ID" + "%" && gaId.trim() !== "") {
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+          document.head.appendChild(script);
+
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function() { dataLayer.push(arguments); };
+          gtag('js', new Date());
+          gtag('config', gaId);
+        }
+      })();
+    </script>
   </head>
   <body class="bg-white text-slate-800 antialiased selection:bg-indigo-100 selection:text-indigo-900">
     <div id="chat-root"></div>
