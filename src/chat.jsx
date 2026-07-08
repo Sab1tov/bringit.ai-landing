@@ -10,7 +10,7 @@ function ChatApp() {
   const [messages, setMessages] = useState([
     {
       id: "welcome",
-      text: "Здравствуйте! Я Алихан 🤖 Спросите про наши курсы, цены, расписание или запишите ребёнка на бесплатное пробное занятие.",
+      text: "Здравствуйте! Я Алихан, виртуальный ассистент BringAI 🤖 Я могу рассказать про интеграцию WhatsApp и Instagram в единый процесс amoCRM. Задайте мне любой вопрос или запишитесь на демо-презентацию!",
       isBot: true,
       timestamp: new Date(),
     },
@@ -54,7 +54,7 @@ function ChatApp() {
     setMessages([
       {
         id: "welcome_" + newSessionId,
-        text: "Здравствуйте! Я Алихан 🤖 Спросите про наши курсы, цены, расписание или запишите ребёнка на бесплатное пробное занятие.",
+        text: "Здравствуйте! Я Алихан, виртуальный ассистент BringAI 🤖 Я могу рассказать про интеграцию WhatsApp и Instagram в единый процесс amoCRM. Задайте мне любой вопрос или запишитесь на демо-презентацию!",
         isBot: true,
         timestamp: new Date(),
       },
@@ -130,10 +130,10 @@ function ChatApp() {
   };
 
   const samplePrompts = [
-    "Расскажи все о ценах",
-    "Какое у вас расписание?",
-    "Где вы находитесь?",
-    "Записать ребенка на пробное",
+    "Как проходит внедрение?",
+    "Что конкретно я получу?",
+    "Какие есть тарифы поддержки?",
+    "Записаться на демо-презентацию",
   ];
 
   return (
@@ -176,7 +176,7 @@ function ChatApp() {
           <div className="h-6 w-[1px] bg-slate-200 hidden sm:block" />
           <div className="hidden sm:flex flex-col">
             <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-              Алихан · QADAM Robotics
+              Алихан · BringAI
             </span>
             <div className="flex items-center gap-1.5">
               <span className={`w-2 h-2 rounded-full ${isOnline ? "bg-emerald-500 animate-pulse" : "bg-rose-500"}`} />
@@ -319,7 +319,7 @@ function ChatApp() {
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Спросите про курсы, цены или расписание..."
+                placeholder="Спросите про интеграцию с amoCRM..."
                 className="flex-1 bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/20 rounded-xl px-4 py-3.5 text-sm text-slate-800 outline-none transition-all shadow-sm"
                 disabled={isLoading}
               />
@@ -334,7 +334,7 @@ function ChatApp() {
               </motion.button>
             </form>
             <p className="text-[10px] text-center text-slate-400 mt-2 font-medium">
-              Демо-версия ассистента QADAM Robotics на базе Rasa и ИИ.
+              Демо-версия ассистента BringAI на базе Rasa и ИИ.
             </p>
           </div>
         </main>
