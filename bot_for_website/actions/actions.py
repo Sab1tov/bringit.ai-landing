@@ -91,9 +91,9 @@ def send_to_google_sheets(lead: Dict[str, Any]) -> None:
     """Отправляет заявку в Google Таблицу через Google Apps Script Web App URL.
     Формат данных соответствует форме на главной странице (name, contact, date).
     """
-    url = os.getenv("GOOGLE_SHEETS_URL") or os.getenv("VITE_GOOGLE_SHEETS_URL")
+    url = os.getenv("GOOGLE_SHEETS_URL")
     if not url:
-        log.info("[google-sheets] GOOGLE_SHEETS_URL / VITE_GOOGLE_SHEETS_URL не заданы, пропускаем отправку.")
+        log.info("[google-sheets] GOOGLE_SHEETS_URL не задан в .env, пропускаем отправку.")
         return
     try:
         # Форматируем контакт так же, как на фронтенде
@@ -125,8 +125,12 @@ def save_lead(lead: Dict[str, Any]) -> None:
     except Exception as e:
         log.warning("[save_lead] ошибка: %s", e)
 
-    # Интеграция с Google Sheets
-    send_to_google_sheets(lead)
+    # Интеграция с Google Sheets (запускаем асинхронно в фоне)
+    try:
+        import threading
+        threading.Thread(target=send_to_google_sheets, args=(lead,), daemon=True).start()
+    except Exception as e:
+        log.warning("[save_lead] Не удалось запустить асинхронный поток Google Sheets: %s", e)
 
 
 CHANNEL_LABELS = {"whatsapp": "WhatsApp", "instagram": "Instagram", "telegram": "Telegram", "other": "чата"}

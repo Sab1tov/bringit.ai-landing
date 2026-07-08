@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client"
 import logoUrl from "./assets/logo.svg"
 import "./index.css"
 
-const BOT_API_URL = "https://energetic-adaptation-production-05cd.up.railway.app/api/chat";
+const BOT_API_URL = import.meta.env.VITE_BOT_API_URL || "https://energetic-adaptation-production-05cd.up.railway.app/api/chat";
 
 function ChatApp() {
   const [messages, setMessages] = useState([
