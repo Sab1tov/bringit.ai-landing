@@ -91,9 +91,9 @@ def send_to_google_sheets(lead: Dict[str, Any]) -> None:
     """Отправляет заявку в Google Таблицу через Google Apps Script Web App URL.
     Формат данных соответствует форме на главной странице (name, contact, date).
     """
-    url = os.getenv("GOOGLE_SHEETS_URL")
+    url = os.getenv("GOOGLE_SHEETS_URL") or os.getenv("VITE_GOOGLE_SHEETS_URL")
     if not url:
-        log.info("[google-sheets] GOOGLE_SHEETS_URL не задан в .env, пропускаем отправку.")
+        log.info("[google-sheets] GOOGLE_SHEETS_URL / VITE_GOOGLE_SHEETS_URL не заданы, пропускаем отправку.")
         return
     try:
         # Форматируем контакт так же, как на фронтенде
