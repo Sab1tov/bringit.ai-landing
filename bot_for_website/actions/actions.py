@@ -88,21 +88,28 @@ def notify_manager(text: str) -> None:
 import httpx
 
 def send_to_google_sheets(lead: Dict[str, Any]) -> None:
-    """Отправляет заявку в Google Таблицу через Google Apps Script Web App URL."""
+    """Отправляет заявку в Google Таблицу через Google Apps Script Web App URL.
+    Формат данных соответствует форме на главной странице (name, contact, date).
+    """
     url = os.getenv("GOOGLE_SHEETS_URL")
     if not url:
         log.info("[google-sheets] GOOGLE_SHEETS_URL не задан в .env, пропускаем отправку.")
         return
     try:
+        # Форматируем контакт так же, как на фронтенде
+        raw_phone = lead.get("phone") or ""
+        formatted_contact = raw_phone.strip()
+        if formatted_contact.startswith("+7"):
+            formatted_contact = "8" + formatted_contact[2:]
+
         payload = {
-            "ts": lead.get("ts"),
-            "name": lead.get("child_name"),
-            "phone": lead.get("phone"),
-            "channel": lead.get("channel"),
-            "contact": lead.get("contact")
+            "name": (lead.get("child_name") or "").strip(),
+            "contact": formatted_contact,
+            "date": datetime.now().strftime("%d.%m.%Y, %H:%M:%S")
         }
         with httpx.Client(follow_redirects=True, timeout=10.0) as client:
-            r = client.post(url, json=payload)
+            # Отправляем как form-data (application/x-www-form-urlencoded)
+            r = client.post(url, data=payload)
             r.raise_for_status()
             log.info("[google-sheets] Отправлено успешно. Статус: %s, Ответ: %s", r.status_code, r.text)
     except Exception as e:
