@@ -271,7 +271,7 @@ def _format_chat_history(chat_history: Optional[List[Dict[str, str]]], max_chars
         text = (item.get("text") or "").strip()
         if not text:
             continue
-        label = "Клиент" if role == "user" else "Алихан"
+        label = "Клиент" if role == "user" else "Мо"
         text = re.sub(r"\s+", " ", text)
         lines.append(f"{label}: {text}")
 
@@ -432,7 +432,7 @@ def answer_question_with_rag(
 
     context = _context_from_hits(hits)
     system = (
-        "Ты Алихан, виртуальный ассистент BringAI. Отвечай клиенту вежливо и лаконично. "
+        "Ты Мо, виртуальный ассистент BringAI. Отвечай клиенту вежливо и лаконично. "
         "Пиши простыми словами, спокойно и по-деловому, максимум 2-4 коротких абзаца. "
         "Можно использовать 1 уместный эмоджи, но без перебора. "
         "Учитывай историю диалога: не повторяй уже сказанное и отвечай как продолжение разговора. "

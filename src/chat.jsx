@@ -10,7 +10,7 @@ function ChatApp() {
   const [messages, setMessages] = useState([
     {
       id: "welcome",
-      text: "Здравствуйте! Я Алихан, виртуальный ассистент BringAI 🤖 Я могу рассказать про интеграцию WhatsApp и Instagram в единый процесс amoCRM. Задайте мне любой вопрос или запишитесь на демо-презентацию!",
+      text: "Здравствуйте! Я Мо, виртуальный ассистент BringAI 🤖 Я могу рассказать про интеграцию WhatsApp и Instagram в единый процесс amoCRM. Задайте мне любой вопрос или запишитесь на демо-презентацию!",
       isBot: true,
       timestamp: new Date(),
     },
@@ -54,7 +54,7 @@ function ChatApp() {
     setMessages([
       {
         id: "welcome_" + newSessionId,
-        text: "Здравствуйте! Я Алихан, виртуальный ассистент BringAI 🤖 Я могу рассказать про интеграцию WhatsApp и Instagram в единый процесс amoCRM. Задайте мне любой вопрос или запишитесь на демо-презентацию!",
+        text: "Здравствуйте! Я Мо, виртуальный ассистент BringAI 🤖 Я могу рассказать про интеграцию WhatsApp и Instagram в единый процесс amoCRM. Задайте мне любой вопрос или запишитесь на демо-презентацию!",
         isBot: true,
         timestamp: new Date(),
       },
@@ -176,7 +176,7 @@ function ChatApp() {
           <div className="h-6 w-[1px] bg-slate-200 hidden sm:block" />
           <div className="hidden sm:flex flex-col">
             <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-              Алихан · BringAI
+              Мо · BringAI
             </span>
             <div className="flex items-center gap-1.5">
               <span className={`w-2 h-2 rounded-full ${isOnline ? "bg-emerald-500 animate-pulse" : "bg-rose-500"}`} />
