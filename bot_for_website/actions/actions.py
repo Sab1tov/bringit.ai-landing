@@ -85,14 +85,41 @@ def notify_manager(text: str) -> None:
     log.info("[notify_manager] (демо) менеджер получил бы уведомление:\n%s", text)
 
 
+import httpx
+
+def send_to_google_sheets(lead: Dict[str, Any]) -> None:
+    """Отправляет заявку в Google Таблицу через Google Apps Script Web App URL."""
+    url = os.getenv("GOOGLE_SHEETS_URL")
+    if not url:
+        log.info("[google-sheets] GOOGLE_SHEETS_URL не задан в .env, пропускаем отправку.")
+        return
+    try:
+        payload = {
+            "ts": lead.get("ts"),
+            "name": lead.get("child_name"),
+            "phone": lead.get("phone"),
+            "channel": lead.get("channel"),
+            "contact": lead.get("contact")
+        }
+        with httpx.Client(follow_redirects=True, timeout=10.0) as client:
+            r = client.post(url, json=payload)
+            r.raise_for_status()
+            log.info("[google-sheets] Отправлено успешно. Статус: %s, Ответ: %s", r.status_code, r.text)
+    except Exception as e:
+        log.warning("[google-sheets] Ошибка при отправке в Google Sheets: %s", e)
+
+
 def save_lead(lead: Dict[str, Any]) -> None:
-    """Сохраняет заявку в data/leads.jsonl."""
+    """Сохраняет заявку в data/leads.jsonl и отправляет в Google Таблицы."""
     try:
         LEADS_PATH.parent.mkdir(parents=True, exist_ok=True)
         with open(LEADS_PATH, "a", encoding="utf-8") as f:
             f.write(json.dumps(lead, ensure_ascii=False) + "\n")
     except Exception as e:
         log.warning("[save_lead] ошибка: %s", e)
+
+    # Интеграция с Google Sheets
+    send_to_google_sheets(lead)
 
 
 CHANNEL_LABELS = {"whatsapp": "WhatsApp", "instagram": "Instagram", "telegram": "Telegram", "other": "чата"}
